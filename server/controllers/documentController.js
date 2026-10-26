@@ -16,8 +16,8 @@ exports.getDocumentsByWorkspace = async (req, res) => {
     }
 
     const documents = await Document.find({ workspace: req.params.workspaceId })
-      .populate('createdBy', 'name email avatar')
-      .populate('lastEditedBy', 'name email avatar')
+      .populate('createdBy', 'name avatar')
+      .populate('lastEditedBy', 'name avatar')
       .sort({ updatedAt: -1 });
 
     res.json(documents);
@@ -50,8 +50,8 @@ exports.createDocument = async (req, res) => {
     });
 
     const populated = await document.populate([
-      { path: 'createdBy', select: 'name email avatar' },
-      { path: 'lastEditedBy', select: 'name email avatar' },
+      { path: 'createdBy', select: 'name avatar' },
+      { path: 'lastEditedBy', select: 'name avatar' },
     ]);
 
     res.status(201).json(populated);
@@ -63,8 +63,8 @@ exports.createDocument = async (req, res) => {
 exports.getDocument = async (req, res) => {
   try {
     const document = await Document.findById(req.params.id)
-      .populate('createdBy', 'name email avatar')
-      .populate('lastEditedBy', 'name email avatar')
+      .populate('createdBy', 'name avatar')
+      .populate('lastEditedBy', 'name avatar')
       .populate('workspace');
 
     if (!document) {
@@ -110,8 +110,8 @@ exports.updateDocument = async (req, res) => {
     await document.save();
 
     const populated = await document.populate([
-      { path: 'createdBy', select: 'name email avatar' },
-      { path: 'lastEditedBy', select: 'name email avatar' },
+      { path: 'createdBy', select: 'name avatar' },
+      { path: 'lastEditedBy', select: 'name avatar' },
     ]);
 
     res.json(populated);

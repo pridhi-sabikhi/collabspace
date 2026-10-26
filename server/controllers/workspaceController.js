@@ -6,8 +6,8 @@ exports.getWorkspaces = async (req, res) => {
     const workspaces = await Workspace.find({
       'members.user': req.user._id,
     })
-      .populate('owner', 'name email avatar')
-      .populate('members.user', 'name email avatar');
+      .populate('owner', 'name avatar')
+      .populate('members.user', 'name avatar');
 
     res.json(workspaces);
   } catch (err) {
@@ -29,8 +29,8 @@ exports.createWorkspace = async (req, res) => {
     });
 
     const populated = await workspace.populate([
-      { path: 'owner', select: 'name email avatar' },
-      { path: 'members.user', select: 'name email avatar' },
+      { path: 'owner', select: 'name avatar' },
+      { path: 'members.user', select: 'name avatar' },
     ]);
 
     res.status(201).json(populated);
@@ -71,8 +71,8 @@ exports.inviteMember = async (req, res) => {
     await workspace.save();
 
     const populated = await workspace.populate([
-      { path: 'owner', select: 'name email avatar' },
-      { path: 'members.user', select: 'name email avatar' },
+      { path: 'owner', select: 'name avatar' },
+      { path: 'members.user', select: 'name avatar' },
     ]);
 
     res.json(populated);
@@ -103,8 +103,8 @@ exports.removeMember = async (req, res) => {
     await workspace.save();
 
     const populated = await workspace.populate([
-      { path: 'owner', select: 'name email avatar' },
-      { path: 'members.user', select: 'name email avatar' },
+      { path: 'owner', select: 'name avatar' },
+      { path: 'members.user', select: 'name avatar' },
     ]);
 
     res.json(populated);

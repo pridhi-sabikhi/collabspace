@@ -8,6 +8,9 @@ export const getSocket = () => {
   if (!socket) {
     socket = io(SOCKET_URL, {
       autoConnect: false,
+      auth: {
+        token: localStorage.getItem('token'),
+      },
     });
   }
   return socket;

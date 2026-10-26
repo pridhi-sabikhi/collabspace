@@ -56,7 +56,7 @@ export default function DocumentPage() {
 
     const socket = connectSocket();
 
-    socket.emit('join-document', id, user._id);
+    socket.emit('join-document', id);
 
     socket.on('active-users', (users) => {
       setActiveUsers(users);
@@ -87,17 +87,12 @@ export default function DocumentPage() {
       }
     });
 
-    socket.on('cursor-move', (userId, position) => {
-      // Could be used for remote cursor rendering
-    });
-
     return () => {
-      socket.emit('leave-document', id, user._id);
+      socket.emit('leave-document', id);
       socket.off('active-users');
       socket.off('user-joined');
       socket.off('user-left');
       socket.off('document-change');
-      socket.off('cursor-move');
       disconnectSocket();
     };
   }, [document?._id, user?._id]);
